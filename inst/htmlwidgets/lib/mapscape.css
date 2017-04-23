@@ -75,3 +75,7 @@ td {
 .sorting_disabled {
   text-align: left
 }
+
+.arc.hide {
+    fill: white !important;
+}
