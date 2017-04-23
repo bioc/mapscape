@@ -325,7 +325,8 @@ HTMLWidgets.widget({
 
             var resetButton_base64 = "data:image/svg+xml;base64," + "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDQzMzYzKSAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik00MzIuOTc1LDgwLjAzNGMtMjcuOTk4LTI3Ljk2My02MC45MjYtNDcuODYtOTYuMDM3LTU5Ljc2NHY3NS4xODkNCgkJYzE2LjkwNCw4LjQxNywzMi45MjgsMTkuMzY5LDQ2Ljk4LDMzLjQ1NmM3MC4xODgsNzAuMjI0LDcwLjE4OCwxODQuMzk3LDAsMjU0LjU4NGMtNzAuMTg5LDcwLjA4NC0xODQuMjkzLDcwLjA4NC0yNTQuNTg3LDANCgkJYy03MC4xMTctNzAuMjU4LTcwLjExNy0xODQuMzYxLDAtMjU0LjU4NGMwLjE3Ny0wLjIxMSwwLjc0LTAuNTYzLDAuOTg3LTAuODhoMC4wN2w3NC4yMTcsODEuNzMxTDIxNC41LDguNUw4LjkwNSwzLjM1Ng0KCQlsNzIuNDYxLDc1LjU4NmMtMC4yNDcsMC40MjItMC42MzQsMC44NDUtMC45NTEsMS4wOTJjLTk3LjMwNSw5Ny4yNy05Ny4zMDUsMjU1LjA3OSwwLDM1Mi4zNDkNCgkJYzk3LjQ0Niw5Ny4zNzUsMjU1LjE1LDk3LjM3NSwzNTIuNTYsMEM1MzAuMjA5LDMzNS4xMTMsNTMwLjMxNCwxNzcuMzA0LDQzMi45NzUsODAuMDM0eiIvPg0KPC9nPg0KPC9zdmc+DQo="
             var downloadButton_base64 = "data:image/svg+xml;base64," + "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDQzMzYzKSAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cG9seWdvbiBmaWxsPSIjRkZGRkZGIiBwb2ludHM9IjM1NC41LDMzMy41IDMzMy41LDMxMy41IDI3MS44MzUsMzY1LjU2NCAyNzEuODM1LDcuOTE3IDI0MC4xNjUsNy45MTcgMjQwLjE2NSwzNjUuNTY0IDE4MC41LDMxNC41IA0KCTE1Ny41LDMzNi41IDI1Niw0MjYuMTg4ICIvPg0KPHBvbHlnb24gZmlsbD0iI0ZGRkZGRiIgcG9pbnRzPSIyOC41LDQ3Mi40MTIgNDg5LjUsNDcyLjQxMiA0OTAuNSw1MDQuMDgyIDI3LjUsNTA0LjA4MiAiLz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMjYuNTgsMzY2LjQxMiA2My40NjcsMzY2LjQxMiA2My41NDcsNTAyLjUgMjYuNSw1MDIuNSAiLz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iNDUyLjUzMywzNjUuNDEyIDQ4OS40MTksMzY1LjQxMiA0ODkuNSw1MDEuNSA0NTIuNDUzLDUwMS41ICIvPg0KPC9zdmc+DQo="
-            
+            var viewSwitchButton_base64 = "data:image/svg+xml;base64," + "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDQ1OSA0NTkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ1OSA0NTk7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3dhcC1ob3JpeiI+CgkJPHBhdGggZD0iTTEwMiwyMDRMMCwzMDZsMTAyLDEwMnYtNzYuNWgxNzguNXYtNTFIMTAyVjIwNHogTTQ1OSwxNTNMMzU3LDUxdjc2LjVIMTc4LjV2NTFIMzU3VjI1NUw0NTksMTUzeiIgZmlsbD0iI0ZGRkZGRiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+
             var resetButtonIconWidth = dim.topBarHeight - 10; // icon size for reset button
             var downloadButtonIconWidth = dim.topBarHeight - 10; // icon size for download button
 
@@ -424,11 +425,63 @@ HTMLWidgets.widget({
                     _downloadPNG("mapscape_" + view_id, "mapscape_" + view_id + ".png");
                 });
 
+            // VIEW SWITCH BUTTON 
+            topBarSVG.append("rect")
+                .attr("class", "viewSwitchButton")
+                .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth)
+                .attr("y", 0)
+                .attr("width", resetButtonWidth)
+                .attr("height", dim.topBarHeight)
+                .attr("rx", 10)
+                .attr("ry", 10)
+                .attr("fill", dim.topBarColour)
+                .on("mouseover", function() {
+                    d3.select(this).attr("fill", dim.topBarHighlight);
+                })
+                .on("mouseout", function() {
+                    d3.select(this).attr("fill", dim.topBarColour);
+                })
+                .on("click", function() {
+                    _viewSwitchClick();
+                });
+            topBarSVG.append("image")
+                .attr("xlink:href", viewSwitchButton_base64)
+                .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth + (resetButtonWidth - resetButtonIconWidth)/2)
+                .attr("y", 5)
+                .attr("width", resetButtonIconWidth)
+                .attr("height", resetButtonIconWidth)
+                .on("mouseover", function() {
+                    d3.select("#" + view_id).select(".viewSwitchButton").attr("fill", dim.topBarHighlight);
+                })
+                .on("mouseout", function() {
+                    d3.select("#" + view_id).select(".viewSwitchButton").attr("fill", dim.topBarColour);
+                })
+                .on("click", function() {
+                    _viewSwitchClick();
+                });
+            
+            // function for view switch click 
+            function _viewSwitchClick() {
+                var wasOn = d3.select("#" + view_id).select(".viewSwitchButton").classed("on");
+                d3.select("#" + view_id).select(".viewSwitchButton").classed("on", !wasOn);
+
+                // switching to voronoi
+                if (wasOn) {
+                    d3.select("#" + view_id).selectAll(".donutG").attr("display", "none");
+                    d3.select("#" + view_id).selectAll('.oncoMixG').attr("display", "auto");
+                }
+                // switching to donuts 
+                else {
+                    d3.select("#" + view_id).selectAll(".donutG").attr("display", "auto");
+                    d3.select("#" + view_id).selectAll('.oncoMixG').attr("display", "none");
+                }
+            }
+
             // reset button (only if mutations are provided)
             if (curVizObj.userConfig.mutations_provided) {
                 topBarSVG.append("rect")
                     .attr("class", "resetButton")
-                    .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth)
+                    .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth*2)
                     .attr("y", 0)
                     .attr("width", resetButtonWidth)
                     .attr("height", dim.topBarHeight)
@@ -447,7 +500,7 @@ HTMLWidgets.widget({
                     });
                 topBarSVG.append("image")
                     .attr("xlink:href", resetButton_base64)
-                    .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth + (resetButtonWidth - resetButtonIconWidth)/2)
+                    .attr("x", topBarWidth - downloadButtonWidth*2 - resetButtonWidth*2 + (resetButtonWidth - resetButtonIconWidth)/2)
                     .attr("y", 5)
                     .attr("width", resetButtonIconWidth)
                     .attr("height", resetButtonIconWidth)

@@ -33,4 +33,3 @@ mapscapeOutput(1, '80\%', '300px')
 mapscapeOutput("hi")
 mapscapeOutput("hello")
 }
-

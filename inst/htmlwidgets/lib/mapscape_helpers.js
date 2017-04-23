@@ -27,6 +27,8 @@ function _legendCloneHighlight(curVizObj, clone_id, showPrevalence) {
         d3.select("#" + view_id + " .donutG.sample_" + sample)
             .selectAll(".arc.clone_" + clone_id)
             .classed("hide", false);
+        d3.selectAll("#" + view_id + " .voronoiCell.sample_" + sample + ".clone_" + clone_id)
+            .classed("hide", false);
     })
 
     // highlight sample title & link to anatomy
@@ -142,6 +144,8 @@ function _propagatedEffects(curVizObj, link_id, link_ids, stream_direction) {
         curVizObj.view.propagation.samples.forEach(function(sample) {
             d3.select("#" + view_id + " .donutG.sample_" + sample)
                 .selectAll(".arc.clone_" + node)
+                .classed("hide", false);
+            d3.selectAll("#" + view_id + " .voronoiCell.sample_" + sample + ".clone_" + node)
                 .classed("hide", false);
         })
     });
@@ -286,6 +290,8 @@ function _shadeMainView(curVizObj) {
 
     d3.select("#" + view_id).selectAll(".arc")
         .classed("hide", true);
+    d3.select("#" + view_id).selectAll(".voronoiCell")
+        .classed("hide", true);
     d3.select("#" + view_id).selectAll(".treeNode")
         .attr("fill-opacity", dim.shadeAlpha)
         .attr("stroke-opacity", dim.shadeAlpha);
@@ -332,6 +338,7 @@ function _resetView(curVizObj) {
 
     // reset all elements of main view
     d3.select("#" + view_id).selectAll(".arc").classed("hide", false);
+    d3.select("#" + view_id).selectAll(".voronoiCell").classed("hide", false);
     d3.select("#" + view_id).selectAll(".treeNode").attr("fill-opacity", 1).attr("stroke-opacity", 1);
     d3.select("#" + view_id).selectAll(".treeLink").attr("stroke-opacity", 1);
     d3.select("#" + view_id).selectAll(".sampleTitle").attr("fill-opacity", 1);
@@ -351,6 +358,8 @@ function _highlightSites(sample_ids, curVizObj) {
 
     sample_ids.forEach(function(sample) {
         d3.select("#" + view_id + " .donutG.sample_" + sample).selectAll(".arc")
+            .classed("hide", false);
+        d3.selectAll("#" + view_id + " .voronoiCell.sample_" + sample)
             .classed("hide", false);
         d3.select("#" + view_id).selectAll(".treeNode.sample_" + sample)
             .attr("fill-opacity", 1)
@@ -420,7 +429,7 @@ function _dragFunction(curVizObj, cur_sample, d) {
         })
 
     // move oncoMix
-    d3.select("#" + view_id).select(".donutG.sample_"+cur_sample)
+    d3.select("#" + view_id).selectAll(".donutG.sample_" + cur_sample + ",.oncoMixG.sample_"+cur_sample)
         .attr("transform", function(d) {
             var point = _drawPointGivenAngle(dim.viewCentre.x, dim.viewCentre.y, dim.radiusToOncoMix, angle);
             return "translate(" + (point.x-d.x) + "," + (point.y-d.y) + ")";
@@ -1460,6 +1469,35 @@ function _getSamplePositioning(curVizObj) {
             y2: _drawPoint(dim.viewCentre.x, dim.viewCentre.y, dim.outerRadius - 2, sample_idx, n_samples).y
         }
 
+        // VORONOI
+
+        // voronoi placement
+        cur_sample_obj.voronoi = {};
+        cur_sample_obj.voronoi.centre = {
+            x: _drawPoint(dim.viewCentre.x, dim.viewCentre.y, dim.radiusToOncoMix, sample_idx+0.5, n_samples).x,
+            y: _drawPoint(dim.viewCentre.x, dim.viewCentre.y, dim.radiusToOncoMix, sample_idx+0.5, n_samples).y
+        }
+        cur_sample_obj.voronoi.top_l_corner = {
+            x: cur_sample_obj.voronoi.centre.x - dim.oncoMixWidth/2,
+            y: cur_sample_obj.voronoi.centre.y - dim.oncoMixWidth/2
+        }
+
+        // place vertices in correct sample location
+        var cur_vertices = $.extend(true, [], general_vertices);
+        cur_vertices.forEach(function(v) {
+            v.x += cur_sample_obj.voronoi.centre.x;
+            v.y += cur_sample_obj.voronoi.centre.y;
+        });
+
+        // order vertices, add colour (genotype) information to each vertex
+        vertices_ordered = _colourOncoMix(curVizObj, cur_vertices, sample_id, cur_sample_obj.voronoi.centre, clust_centres);
+        cur_sample_obj.voronoi.vertices = vertices_ordered;
+
+        // 2D array of x- and y- positions for vertices
+        cur_sample_obj.voronoi.vertex_coords = vertices_ordered.map(function(vertex) {
+            return [vertex.x, vertex.y];
+        });
+
         // DONUT 
 
         // get cellular prevalence data ready for donut
@@ -1671,7 +1709,7 @@ function _snapSites(curVizObj) {
         }
 
         // move oncoMix
-        d3.select("#" + view_id).select(".donutG.sample_"+sample)
+        d3.select("#" + view_id).selectAll(".donutG.sample_" + sample + ",.oncoMixG.sample_" + sample)
             .transition()
             .attr("transform", function(d) {
                 var point = _drawPointGivenAngle(dim.viewCentre.x, dim.viewCentre.y, dim.radiusToOncoMix, angle);
@@ -1801,6 +1839,77 @@ function _plotSite(curVizObj, sample, drag) {
 
     // PLOT ONCOMIX
 
+    // create oncoMix group
+    var curSiteOncoMixG = cur_sampleG
+        .selectAll(".oncoMixG")
+        .data([{"x": sample_data.voronoi.centre.x, "y": sample_data.voronoi.centre.y, "sample": sample}])
+        .enter()
+        .append("g")
+        .classed("oncoMixG", true)
+        .classed("sample_" + sample, true)
+        .style("cursor", "pointer")
+        .call(drag);
+
+    // voronoi function for this sample
+    var voronoi = d3.geom.voronoi()
+        .clipExtent([[sample_data.voronoi.top_l_corner.x, 
+                    sample_data.voronoi.top_l_corner.y], 
+                    [sample_data.voronoi.top_l_corner.x + dim.oncoMixWidth, 
+                    sample_data.voronoi.top_l_corner.y + dim.oncoMixWidth]]);
+
+    // plot opaque white cells first (to cover up the anatomic line)
+    var vertices = sample_data.voronoi.vertices;
+    var whiteCells = curSiteOncoMixG.append("g")
+        .classed("whiteCellsG", true)
+        .classed("sample_" + sample, true)
+        .selectAll("path")
+        .data(voronoi(sample_data.voronoi.vertex_coords), _polygon)
+        .enter().append("path")
+        .attr("class", "whiteCell")
+        .attr("d", _polygon)
+        .attr("fill", function(d, i) {
+            return (vertices[i].real_cell) ? "white" : "none";
+        })
+        .attr("fill-opacity", function(d, i) {
+            return (vertices[i].real_cell) ? 1 : 0;
+        })
+        .attr("stroke", function(d, i) {
+            return (vertices[i].real_cell) ? "white" : "none";
+        })
+        .attr("stroke-width", "1.5px")
+        .attr("stroke-opacity", function(d, i) {
+            return (vertices[i].real_cell) ? 1 : 0;
+        });
+
+    // plot cells
+    var vertices = sample_data.voronoi.vertices;
+    var cells = curSiteOncoMixG.append("g")
+        .classed("cellsG", true)
+        .classed("sample_" + sample, true)
+        .selectAll("path")
+        .data(voronoi(sample_data.voronoi.vertex_coords), _polygon)
+        .enter().append("path")
+        .attr("class", function(d, i) {
+            if (vertices[i].real_cell) {
+                return "voronoiCell sample_" + sample + " clone_" + vertices[i].gtype;
+            }
+            return "voronoiCell sample_" + sample;
+        })
+        .attr("d", _polygon)
+        .attr("fill", function(d, i) {
+            return (vertices[i].real_cell) ? vertices[i].col : "none";
+        })
+        .attr("fill-opacity", function(d, i) {
+            return (vertices[i].real_cell) ? 1 : 0;
+        })
+        .attr("stroke", function(d, i) {
+            return (vertices[i].real_cell) ? _decrease_brightness(vertices[i].col, 15) : "none";
+        })
+        .attr("stroke-width", "1.5px")
+        .attr("stroke-opacity", function(d, i) {
+            return (vertices[i].real_cell) ? 1 : 0;
+        });
+
     // PLOT DONUT 
 
     var curSiteDonutG = cur_sampleG
@@ -1841,17 +1950,10 @@ function _plotSite(curVizObj, sample, drag) {
             padAngle: 0.02,
             cornerRadius: 3
         });
-
-        var voronoiOverlay = new VoronoiOverlay({
-            cx: cx,
-            cy: cy,
-            outerR: outerR,
-            innerR: innerR,
-            strokeWidth: 0.5,
-            d3Element: d3.select(_this)
-        });
     })
 
+    // initially, donut is off (voronoi is on)
+    d3.select("#" + curVizObj.view_id).selectAll(".donutG").attr("display", "none");
 
     // PLOT TREE
 
@@ -1998,11 +2100,17 @@ function _plotSite(curVizObj, sample, drag) {
                 // shade this oncoMix
                 d3.select("#" + view_id + " .donutG.sample_" + sample).selectAll(".arc")
                     .classed("hide", true);
+                d3.selectAll("#" + view_id + " .voronoiCell.sample_" + sample)
+                    .classed("hide", true);
+                
 
                 // highlight oncoMix cells with this genotype
                 d3.select("#" + view_id + " .donutG.sample_" + sample)
                     .selectAll(".arc.clone_" + d.id)
                     .classed("hide", false);
+                d3.selectAll("#" + view_id + " .voronoiCell.sample_" + sample + ".clone_" + d.id)
+                    .classed("hide", false);
+                
             }
         })
         .on('mouseout', function(d) {

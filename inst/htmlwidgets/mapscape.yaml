@@ -46,10 +46,6 @@ dependencies:
    version: 0.0.0
    src: "htmlwidgets/lib"
    script: my_svg_crowbar.js
- - name: voronoiOverlay
-   version: 0.0.0
-   src: "htmlwidgets/lib"
-   script: voronoiOverlay.js
  - name: tumourDonut
    version: 0.0.0
    src: "htmlwidgets/lib"

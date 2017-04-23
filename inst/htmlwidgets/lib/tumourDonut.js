@@ -18,6 +18,13 @@ TumourDonut.prototype.draw = function() {
         .classed("donutStuff", true)
         .attr("transform", "translate(" + this.cx + "," + this.cy + ")");
 
+    // underlying white circle 
+    this.g.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", this.outerRadius)
+        .attr("fill", "white");
+
     var color = d3.scale.ordinal()
         .range(["#7fc97f", "#beaed4", "#fdc086", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 

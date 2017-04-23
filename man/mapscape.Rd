@@ -117,14 +117,37 @@ width is 930.}
 height is 700.}
 }
 \description{
-Generates patient clonal MapScapes.
+MapScape is a visualization tool for spatial clonal evolution. 
+MapScape displays a cropped anatomical image surrounded by two 
+representations of each tumour sample representing the distribution 
+of clones throughout anatomic space. The first, a cellular aggregate 
+or donut view, displays the prevalence of each clone. The second 
+shows a skeleton of the patient’s clonal phylogeny while highlighting 
+only those clones present in the sample. 
+Note: the cellular aggregate does not accurately represent the 
+positions of clones within a sample. We therefore provide the 
+alternative donut chart view as a less artistic representation of 
+the tumour sample. See the Interactivity section below for instructions 
+to switch between views.
 }
 \details{
+Interactive components in the top toolbar:
+  \enumerate{
+
+\item Click the download buttons to download the current view 
+       as PNG or SVG.
+
+\item Click the reset button to exit a clone or mutation selection.
+
+\item Click the view switch button to switch between cellular
+
+}
+
 Interactive components in main view:
   \enumerate{
 
-\item Reorder samples by grabbing the sample name or tumour and 
-       dragging it radially.
+\item Reorder samples by grabbing the sample name or cellular 
+       aggregate / donut and dragging it radially.
 
 \item Hover over anatomic location of interest to view the 
        anatomic location name and the patient data associated with 
@@ -280,4 +303,3 @@ mapscape(clonal_prev = clonal_prev, tree_edges = tree_edges,
     sample_locations = sample_locations, mutations = mutations, 
     img_ref = img_ref, clone_colours = clone_colours, sample_ids = sample_ids)
 }
-

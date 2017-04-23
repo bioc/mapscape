@@ -77,5 +77,10 @@ td {
 }
 
 .arc.hide {
-    fill: white !important;
+    fill-opacity: 0;
+}
+
+.voronoiCell.hide {
+    fill-opacity: 0;
+    stroke-opacity: 0;
 }
