@@ -1,6 +1,6 @@
 Package: mapscape
 Title: mapscape
-Version: 0.99.5
+Version: 1.0.0
 Authors@R: person("Maia", "Smith", email = "maiaannesmith@gmail.com",
         role = c("aut", "cre"))
 Description: MapScape integrates clonal prevalence, clonal hierarchy,
