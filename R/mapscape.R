@@ -373,6 +373,9 @@ mapscape <- function(clonal_prev,
 
   # CLONAL PREVALENCE DATA
 
+  # replace any periods in sample id with underscores
+  clonal_prev$sample_id <- stringr::str_replace_all(clonal_prev$sample_id,"[.]","_")
+
   # print("[Progress] Processing clonal prevalence data...")
 
   # create map of original sample ids to space-replaced sample ids
@@ -431,7 +434,7 @@ mapscape <- function(clonal_prev,
   }
 
   # ensure data is of the correct type
-  sample_locations$sample_id <- as.character(sample_locations$sample_id)
+  sample_locations$sample_id <- stringr::str_replace_all(sample_locations$sample_id,"[.]","_") # replace periods with underscores
   sample_locations$location_id <- as.character(sample_locations$location_id)
   sample_locations$x <- as.numeric(as.character(sample_locations$x))
   sample_locations$y <- as.numeric(as.character(sample_locations$y))
