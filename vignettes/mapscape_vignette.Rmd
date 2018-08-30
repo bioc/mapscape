@@ -17,8 +17,9 @@ To install MapScape, type the following commands in R:
 
 ```{r, eval=FALSE}
 # try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("mapscape")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("mapscape")
 ```
 
 # Examples 
